@@ -17,10 +17,10 @@ API root url:
 - http://localhost:3000/v1
 
 Endpoints:
-- GET http://localhost:3000/v1/albums
-- GET http://localhost:3000/v1/albums/:id
-- POST http://localhost:3000/v1/albums requires: title, artist, genre, and year params in body of request
-- PUT http://localhost:3000/v1/albums/:id
+- GET http://localhost:3000/v1/albums index of albums
+- GET http://localhost:3000/v1/albums/:id show album
+- POST http://localhost:3000/v1/albums create album, requires: title, artist, genre, and year params in body of request
+- PUT http://localhost:3000/v1/albums/:id update album
 - GET http://localhost:3000/v1/artists index of artists
 - GET http://localhost:3000/v1/artists/:name all albums for a particular artists. This can also be queried in a more restful way through `http://localhost:3000/v1/albums?query={"where": {"artist": "Oasis"}}`
 

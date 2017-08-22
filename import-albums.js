@@ -1,3 +1,5 @@
+'use strict'
+
 const csv = require('fast-csv');
 const fs = require('fs');
 const _ = require('lodash');
@@ -6,7 +8,7 @@ module.exports = function(mongoose) {
   const Album = mongoose.model('Album');
   const stream = fs.createReadStream('./albums.csv');
 
-  let count = 0
+  let count = 0;
 
   Album.count({}).exec()
   .then(albumCount => {
@@ -47,7 +49,7 @@ function sanitizeData(data) {
     }
 
     if (!_.isEqual(data, cleanData)) {
-      console.error(`Warning: Possible unwanted characters in album titled: '${data.album}'. Check document with this title and edit as needed.`)
+      console.error(`Warning: Possible unwanted characters in album titled: '${data.album}'. Check document with this title and edit as needed.`);
     }
 
     resolve(data);

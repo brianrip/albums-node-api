@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = function(app, mongoose, router) {
 	const Album = mongoose.model('Album');
 
