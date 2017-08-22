@@ -47,9 +47,9 @@ function sanitizeData(data) {
     }
 
     if (!_.isEqual(data, cleanData)) {
-      console.error(`Sanitized record with album title: ${data.album}. Check data quality for this record.`)
+      console.error(`Warning: Possible unwanted characters in album titled: '${data.album}'. Check document with this title and edit as needed.`)
     }
 
-    resolve(cleanData);
+    resolve(data);
   });
 }

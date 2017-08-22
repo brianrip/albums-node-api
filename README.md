@@ -1,18 +1,28 @@
-### Back-end Developer Interview
+## Albums API
 
-### Given the attached .csv file of music albums, create an API with the following features:
-- CRUD operation endpoints for albums.
-- An index of artists.
-- An endpoint for a particular artist that includes a listing of the artist’s album(s).
-- please include a README so we can set up your project.
-#### Extra Credit (required for Senior Positions):
-- Create an endpoint that returns genres ranked by number of albums or list the years with the most albums.
+Steps to run locally
+- Ensure you have a instance of mongoDB running locally by installing mongo if you haven't and running command: `mongod` this may require `sudo` depending on your permissions. Once mongo is up and running on default ports:
+- `npm install`
+- `npm start`
 
+Upon first successful startup you should see these messages in your terminal.
+- Web server running on port 3000.
+- Mongoose connection successful.
+- Warning: Possible unwanted characters in album titled: 'Don‰Ûªt Believe the Truth'. Check document with this title and edit as needed.
+- Warning: Possible unwanted characters in album titled: 'Post'. Check document with this title and edit as needed.
 
-Part 2: Assessment and 1:1
-You will have a scheduled in-person interview at our Boulder office with one of our engineering
-managers followed by a pairing session with one of our developers. At this interview, come
-prepared to discuss and explain your technical choices, thought process, etc. for the technical
-challenge.
-Our office is located at 902 Pearl St. in downtown Boulder. If you’re unfamiliar with parking in
-Boulder, there is paid street parking and the nearest garage is at the St. Julien Hotel.
+The last three messages will only appear the first time you start the app in order to seed the database from a csv of albums. The `Warning:` messages are to notify the user that some data contained possible unwanted characters.
+
+API root url:
+- http://localhost:3000/v1
+
+Endpoints:
+- GET http://localhost:3000/v1/albums
+- GET http://localhost:3000/v1/albums/:id
+- POST http://localhost:3000/v1/albums requires: title, artist, genre, and year params in body of request
+- PUT http://localhost:3000/v1/albums/:id
+- GET http://localhost:3000/v1/artists index of artists
+- GET http://localhost:3000/v1/artists/:name all albums for a particular artists. This can also be queried in a more restful way through `http://localhost:3000/v1/albums?query={"where": {"artist": "Oasis"}}`
+
+Extra Credit:
+- GET http://localhost:3000/v1/genres/mostAlbums genres ranked by number of albums

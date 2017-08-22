@@ -14,8 +14,6 @@ module.exports = function(app, mongoose, router) {
 	});
 
 	router.get('/artists/:name', (req, res) => {
-    let artistName = req.query.name;
-
 		Album
 			.aggregate([
         {
