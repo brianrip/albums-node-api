@@ -57,14 +57,14 @@ app.use(function(req, res, next) {
 });
 
 // include controllers
-// const router = express.Router();
-// app.use('/v1', router);
-// fs.readdirSync('./controllers').forEach((file) => {
-// 	if(file.substr(-3) == '.js') {
-// 		const controller = require('./controllers/' + file);
-// 		controller(app, mongoose, router);
-// 	}
-// });
+const router = express.Router();
+app.use('/v1', router);
+fs.readdirSync('./controllers').forEach((file) => {
+	if(file.substr(-3) == '.js') {
+		const controller = require('./controllers/' + file);
+		controller(app, mongoose, router);
+	}
+});
 
 // start Express
 const server = app.listen(config.server.port, () => {

@@ -1,10 +1,13 @@
 const csv = require('fast-csv');
 const fs = require('fs');
+const _ = require('lodash');
 
 module.exports = function(mongoose) {
   const Album = mongoose.model('Album');
   const stream = fs.createReadStream('./albums.csv');
+
   let count = 0
+
   Album.count({}).exec()
   .then(albumCount => {
     if (albumCount) {
@@ -13,12 +16,18 @@ module.exports = function(mongoose) {
       csv.fromStream(stream, { headers: true })
       .on('data', function(data){
         count++
+
         sanitizeData(data)
         .then(cleanData => {
-          Album.create(cleanData, (err, album) => {
+          Album.create({
+            title: cleanData.album,
+            artist: cleanData.artist,
+            genre: cleanData.genre,
+            year: cleanData.year
+          }, (err, album) => {
             if (err) console.error(err);
           });
-        })
+        });
       })
       .on('end', function(){
         console.log(`Finished importing ${count} albums!`);
@@ -29,11 +38,18 @@ module.exports = function(mongoose) {
 
 function sanitizeData(data) {
   return new Promise((resolve, reject) => {
-    resolve({
-      title: (data.album).replace(/[^\x20-\x7E]+/g, ''),
+
+    let cleanData = {
+      album: (data.album).replace(/[^\x20-\x7E]+/g, ''),
       artist: (data.artist).replace(/[^\x20-\x7E]+/g, ''),
       genre: (data.genre).replace(/[^\x20-\x7E]+/g, ''),
       year: (data.year).replace(/[^\x20-\x7E]+/g, '')
-    })
+    }
+
+    if (!_.isEqual(data, cleanData)) {
+      console.error(`Sanitized record with album title: ${data.album}. Check data quality for this record.`)
+    }
+
+    resolve(cleanData);
   });
 }
