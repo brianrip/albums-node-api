@@ -13,22 +13,22 @@ module.exports = function(app, mongoose, router) {
 			});
 	});
 
-	router.get('/artists/byName', (req, res) => {
-    console.log(req.query.name);
+	router.get('/artists/:name', (req, res) => {
     let artistName = req.query.name;
 
 		Album
-			.aggregate(
-        [
-          { $match: { name: artistName } },
-          { $group: { _id: "$name" } }
-        ]
-      )
-			.exec((err, artists) => {
+			.aggregate([
+        {
+          $match: {
+            artist: req.params.name
+          }
+        }
+      ])
+			.exec((err, albums) => {
 				if (err) {
 					res.status(400).json({ error: err.message });
 				} else {
-					res.json({ artists: artists });
+					res.json({ artistsAlbums: albums });
 				}
 			});
 	});
